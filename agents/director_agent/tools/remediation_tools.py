@@ -38,12 +38,20 @@ def execute_remediation(tool_context: ToolContext, remediation: str) -> dict:
     if not authz or not authz.get("allowed"):
         return {"executed": False, "reason": "BLOCKED: no prior ALLOW from check_authorization"}
 
-    endpoints = {"requeue_worker": "/requeue/encoder-2"}
+    endpoints = {"requeue_worker": ("requeue/encoder-2", {})}
     if remediation not in endpoints:
         return {"executed": False, "reason": f"no control-API binding for '{remediation}' (escalate)"}
 
-    resp = requests.post(CONTROL_API_URL + endpoints[remediation], timeout=10)
-    result = {"executed": resp.ok, "remediation": remediation, "status": resp.status_code}
+    endpoint, payload = endpoints[remediation]
+    from tools.tasks_tools import dispatch_remediation
+
+    dispatch = dispatch_remediation(endpoint, payload)
+    result = {
+        "executed": dispatch.get("queued") or 200 <= dispatch.get("status", 0) < 300,
+        "remediation": remediation,
+        "via": "cloud_tasks" if dispatch.get("queued") else "direct",
+        "dispatch": dispatch,
+    }
     tool_context.state["remediation_result"] = result
     return result
 
