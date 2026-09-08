@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T1.5** — Grafana dashboard + 2 alert rules provisioned, both reach Firing (verified 2026-09-08)
-- **Next task to execute**: **T1.6** (simulator smoke tests)
+- **Last completed task**: **T1.6** — simulator smoke tests 4/4 passed (verified 2026-09-08). Phase 1 complete.
+- **Next task to execute**: **T2.1** (run Grafana MCP server — partner proof)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 
