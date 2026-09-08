@@ -20,22 +20,16 @@ REMEDIATION_CATALOG = frozenset({
 def check_authorization(tool_context: ToolContext, remediation: str) -> dict:
     """IAM gate. FORCED before every execute_remediation call (Decision #2).
 
-    Phase 3 local policy: requeue_worker and flip_cdn_region allowed for the
-    agent SA; everything else denied -> escalation path.
-    T4.x replaces this with real Cloud IAM policy evaluation.
+    Delegates to the pure-Python policy evaluator (T4.1) — deterministic,
+    no LLM in the authorization path. Writes the verdict to state.
     """
-    if remediation not in REMEDIATION_CATALOG:
-        return {"allowed": False, "reason": f"'{remediation}' is not in the remediation catalog"}
+    from tools.policy_tools import check_authorization as evaluate
 
-    allowed = {"requeue_worker", "flip_cdn_region"}
-    decision = {
-        "allowed": remediation in allowed,
-        "remediation": remediation,
-        "reason": "granted by agent IAM policy (phase-3 local policy)" if remediation in allowed
-        else "denied: IAM policy does not grant this action to the agent service account",
-    }
-    tool_context.state["authz_decision"] = decision
-    return decision
+    verdict = evaluate(remediation)
+    tool_context.state["authz_decision"] = verdict
+    if verdict.get("escalate"):
+        tool_context.state["escalate"] = True
+    return verdict
 
 
 def execute_remediation(tool_context: ToolContext, remediation: str) -> dict:

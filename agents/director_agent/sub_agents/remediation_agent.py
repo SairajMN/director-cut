@@ -15,9 +15,10 @@ If authz_decision.allowed is true:
    "auto-remediated: requeue_worker (encoder_frame_drop) — recovered".
 
 If allowed is false: execute NOTHING. Say exactly:
-  "REMEDICATION DENIED — escalating" and stop.
+  "REMEDICATION DENIED (tier <tier>) — escalating" and stop, so the Director
+  hands off to the Escalation officer.
 
-Output a JSON dict: {"executed": bool, "action": str, "annotated": bool}
+Output a JSON dict: {"executed": bool, "action": str, "annotated": bool, "escalate": bool}
 """
 
 remediation_agent = LlmAgent(

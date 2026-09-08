@@ -1,0 +1,28 @@
+# Director's Cut IAM policy — the "money moment" governance layer.
+# Tiers: T1 auto (agent executes) | T2 approve+notify | T3 block (escalate only)
+version: 1
+service_account: director-cut-agent@director-cut.iam.gserviceaccount.com
+
+remediations:
+  requeue_worker:
+    tier: T1
+    grants: [director-cut-agent@director-cut.iam.gserviceaccount.com]
+    control_api: /requeue/encoder-2
+    scope: single-encoder, reversible in seconds
+
+  flip_cdn_region:
+    tier: T1
+    grants: [director-cut-agent@director-cut.iam.gserviceaccount.com]
+    control_api: /flip-cdn
+    scope: regional traffic shift, reversible
+
+  scale_encoder_pool:
+    tier: T2
+    grants: []
+    requires: human approval + Slack notify
+    reason: spends money (autoscaler), not reversible instantly
+
+  purge_cdn_cache:
+    tier: T3
+    grants: []
+    reason: global blast radius; on-call engineer only

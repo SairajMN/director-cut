@@ -129,9 +129,9 @@ director-cut/
 ### Phase 4 — Governance Layer (the money moment)
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T4.1 | `policy/iam_policy.yaml`: remediation catalog with tiers (T1 auto, T2 approve+notify, T3 block) + `policy_tools.check_authorization` pure-Python evaluator (no LLM) + unit tests | `policy/iam_policy.yaml`, `tools/policy_tools.py`, `tests/test_policy.py` | T3.4 | `[ ]` | `pytest tests/test_policy.py -v` |
-| T4.2 | Hook Studio Head gate into Remediation Agent: forced `check_authorization` before `execute_remediation`; BLOCKED path routes to escalation | update `remediation_agent.py` | T4.1 | `[ ]` | adk web: propose GLOBAL_CDN_FLIP → trace shows BLOCKED |
-| T4.3 | Escalation Agent: `create_incident_ticket` tool → writes pre-filled ticket JSON to `tickets/` + HTTP webhook stub; blocked-path e2e test | `sub_agents/escalation_agent.py`, `tests/e2e_blocked.py` | T4.2 | `[ ]` | `python tests/e2e_blocked.py` produces ticket JSON with block reason |
+| T4.1 | `policy/iam_policy.yaml`: remediation catalog with tiers (T1 auto, T2 approve+notify, T3 block) + `policy_tools.check_authorization` pure-Python evaluator (no LLM) + unit tests | `policy/iam_policy.yaml`, `tools/policy_tools.py`, `tests/test_policy.py` | T3.4 | `[x]` | `pytest tests/test_policy.py -v` |
+| T4.2 | Hook Studio Head gate into Remediation Agent: forced `check_authorization` before `execute_remediation`; BLOCKED path routes to escalation | update `remediation_agent.py` | T4.1 | `[x]` | adk web: propose GLOBAL_CDN_FLIP → trace shows BLOCKED |
+| T4.3 | Escalation Agent: `create_incident_ticket` tool → writes pre-filled ticket JSON to `tickets/` + HTTP webhook stub; blocked-path e2e test | `sub_agents/escalation_agent.py`, `tests/e2e_blocked.py` | T4.2 | `[x]` | `python tests/e2e_blocked.py` produces ticket JSON with block reason |
 | T4.4 | Commit + push Phase 4 | — | T4.3 | `[ ]` | `git log --oneline -1` |
 
 ### Phase 5 — Cloud Integration
