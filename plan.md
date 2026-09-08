@@ -145,9 +145,9 @@ director-cut/
 ### Phase 6 — Deploy & Demo
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T6.1 | Deploy ADK agent to Vertex AI Agent Engine (`agents/deployment.py`); store remote agent ID in `.env` | `agents/deployment.py` | T5.x | `[ ]` | `python agents/deployment.py --test "status"` returns live response |
-| T6.2 | War-room UI on Cloud Run: incident timeline, agent reasoning trace, Grafana panel embeds, ticket queue with human "Approve fix" button | `ui/` | T6.1 | `[ ]` | `gcloud run services describe director-cut-ui` → open URL |
-| T6.3 | Scripted e2e demo driver `tests/e2e_demo.py`: runs Scenario A then Scenario B with clean timing for recording | `tests/e2e_demo.py` | T6.2 | `[ ]` | run once locally against cloud agent, full green |
+| T6.1 | Deploy ADK agent to Vertex AI Agent Engine (`agents/deployment.py`); store remote agent ID in `.env` | `agents/deployment.py` | T5.x | `[x]` | `python agents/deployment.py --test "status"` returns live response |
+| T6.2 | War-room UI on Cloud Run: incident timeline, agent reasoning trace, Grafana panel embeds, ticket queue with human "Approve fix" button | `ui/` | T6.1 | `[x]` | `gcloud run services describe director-cut-ui` → open URL |
+| T6.3 | Scripted e2e demo driver `tests/e2e_demo.py`: runs Scenario A then Scenario B with clean timing for recording | `tests/e2e_demo.py` | T6.2 | `[x]` | run once locally against cloud agent, full green |
 | T6.4 | Record 3-min demo video (beats in README §4), upload YouTube public | — | T6.3 | `[ ]` | URL in README §6 checklist |
 | T6.5 | Final: README checklist complete, repo public, Devpost form (Grafana Labs track) submitted | — | T6.4 | `[ ]` | manual review of README §6 |
 

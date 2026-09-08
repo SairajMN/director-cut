@@ -1,0 +1,7 @@
+google-cloud-aiplatform[agent_engines]>=1.95
+google-adk
+cloudpickle
+requests
+mcp>=1.30,<2
+PyYAML
+python-dateutil
