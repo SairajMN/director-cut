@@ -1,0 +1,7 @@
+{
+  "server": "grafana-mcp",
+  "transport": "sse",
+  "url": "http://localhost:9222/sse",
+  "grafana_url": "http://localhost:3000",
+  "notes": "Grafana MCP server (mcp/grafana-mcp) — the ONLY observability access path for agents. Token comes from .env GRAFANA_SA_TOKEN (mirrored in Secret Manager as grafana-sa-token)."
+}

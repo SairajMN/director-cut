@@ -111,15 +111,15 @@ director-cut/
 ### Phase 2 — Grafana MCP Integration (PARTNER PROOF)
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T2.1 | Run Grafana MCP server (docker, `mcp/grafana-mcp`) pointed at local Grafana with service-account token in Secret Manager | `mcp/grafana_mcp_config.json` | T1.5, T0.4 | `[ ]` | MCP tool call `list_alert_rules` returns the 2 rules |
-| T2.2 | Write `grafana_tools.py` wrapping MCP toolkit for ADK (`McpToolset`): expose query_prometheus, query_loki_logs, list_alert_rules, get_alert_status, write_annotation | `agents/director_agent/tools/grafana_tools.py` | T2.1 | `[ ]` | `python -c "from agents.director_agent.tools.grafana_tools import get_grafana_toolset; print(len(get_grafana_toolset()))"` |
-| T2.3 | Manual MCP round-trip test script proving runtime Grafana calls (this is the "imported and called in code" evidence — screenshot for Devpost) | `tests/test_grafana_mcp.py` | T2.2 | `[ ]` | `pytest tests/test_grafana_mcp.py -v` |
+| T2.1 | Run Grafana MCP server (docker, `mcp/grafana-mcp`) pointed at local Grafana with service-account token in Secret Manager | `mcp/grafana_mcp_config.json` | T1.5, T0.4 | `[x]` | MCP tool call `list_alert_rules` returns the 2 rules |
+| T2.2 | Write `grafana_tools.py` wrapping MCP toolkit for ADK (`McpToolset`): expose query_prometheus, query_loki_logs, list_alert_rules, get_alert_status, write_annotation | `agents/director_agent/tools/grafana_tools.py` | T2.1 | `[x]` | `python -c "from agents.director_agent.tools.grafana_tools import get_grafana_toolset; print(len(get_grafana_toolset()))"` |
+| T2.3 | Manual MCP round-trip test script proving runtime Grafana calls (this is the "imported and called in code" evidence — screenshot for Devpost) | `tests/test_grafana_mcp.py` | T2.2 | `[x]` | `pytest tests/test_grafana_mcp.py -v` |
 | T2.4 | Commit + push Phase 1–2 | — | T2.3 | `[ ]` | `git log --oneline -1` |
 
 ### Phase 3 — Agent Crew (ADK)
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T3.1 | Director root agent: `LlmAgent` with 4 sub-agents, deterministic instruction pipeline in `prompts.py`, session state keys: `incident_report`, `root_cause_report`, `authz_decision`, `ticket` | `agents/director_agent/agent.py`, `prompts.py` | T2.2 | `[ ]` | `adk web agents/` loads; chat "status" responds |
+| T3.1 | Director root agent: `LlmAgent` with 4 sub-agents, deterministic instruction pipeline in `prompts.py`, session state keys: `incident_report`, `root_cause_report`, `authz_decision`, `ticket` | `agents/director_agent/agent.py`, `prompts.py` | T2.2 | `[x]` | `adk web agents/` loads; chat "status" responds |
 | T3.2 | Sensor Agent: sub-agent using grafana MCP tools + `get_incident_context` python tool; writes `IncidentReport` dict to state | `sub_agents/sensor_agent.py` | T3.1 | `[ ]` | adk web: inject failure → state contains `incident_report` |
 | T3.3 | Root-Cause Agent: sub-agent with Loki/Prom range-query tools + placeholder `search_runbooks` (stub until T5.2); writes `RootCauseReport` | `sub_agents/root_cause_agent.py` | T3.1 | `[ ]` | adk web: after sensor step, state has `root_cause_report` with evidence list |
 | T3.4 | Remediation Agent: sub-agent with `check_authorization` + `execute_remediation` + `write_grafana_annotation`; remediation catalog is a fixed enum in `remediation_tools.py` | `sub_agents/remediation_agent.py`, `tools/remediation_tools.py` | T3.1 | `[ ]` | adk web: forced authz call appears in trace before any execution |
@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T1.6** — simulator smoke tests 4/4 passed (verified 2026-09-08). Phase 1 complete.
-- **Next task to execute**: **T2.1** (run Grafana MCP server — partner proof)
+- **Last completed task**: **T2.2** — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
+- **Next task to execute**: **T2.3** (MCP round-trip proof test)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 
