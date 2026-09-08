@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: workers
+    static_configs:
+      - targets:
+          - encoder-1:9100
+          - encoder-2:9100
+          - encoder-3:9100
+          - cdn-1:9100
+          - cdn-2:9100
