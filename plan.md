@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T2.3** — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
-- **Next task to execute**: **T3.1** (agent scaffolding)
+- **Last completed task**: **T3.4** (agent crew: sensor, root-cause, studio-head gate, remediation, escalation — all load, authz gate enforced) — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
+- **Next task to execute**: **T3.5** (e2e local golden path)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 
