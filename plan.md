@@ -155,7 +155,7 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T3.6** — Phase 3 complete; e2e golden path PASS (inject 36 drops/s -> alert -> authz ALLOW -> requeue -> recovery 0.13 -> annotation) (agent crew: sensor, root-cause, studio-head gate, remediation, escalation — all load, authz gate enforced) — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
+- **Last completed task**: **T5.4** — Phase 5 complete: BQ post_mortems, runbook RAG, Cloud Tasks dispatch, pushed to origin (2026-09-08)
  **T4.1** (Studio Head real IAM policy via GCP IAM / policy engine)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
