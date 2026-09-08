@@ -95,8 +95,8 @@ director-cut/
 | T0.1 | Create scaffolding dirs + `.gitignore` (`.env`, `__pycache__`, `.venv`) | dirs above | — | `[x]` | `ls agents/director_agent tools 2>/dev/null; cat .gitignore` |
 | T0.2 | Create `.env.example` + load `.env` (GCP_PROJECT_ID, REGION, GRAFANA_URL, GRAFANA_SA_TOKEN, GOOGLE_API_KEY) | `.env.example` | T0.1 | `[x]` | `grep -c "GCP_PROJECT_ID" .env.example` |
 | T0.3 | `requirements.txt`: `google-cloud-aiplatform[agent_engines,adk]>=1.101.0`, `fastapi`, `uvicorn`, `requests`, `prometheus-client`, `mcp`, `pyyaml`, `pytest` | `requirements.txt` | T0.1 | `[x]` | `pip install -r requirements.txt && python -c "import google.adk"` |
-| T0.4 | GCP setup: enable APIs (aiplatform, run, bigquery, cloudtasks, secretmanager, discoveryengine); create service account `director-cut-agent`; grant roles; document in `docs/gcp-setup.md` | `docs/gcp-setup.md` | T0.2 | `[ ]` | `gcloud services list --enabled \| grep aiplatform` |
-| T0.5 | Initial git commit of scaffolding | — | T0.1 | `[ ]` | `git log --oneline \| head -3` |
+| T0.4 | GCP setup: enable APIs (aiplatform, run, bigquery, cloudtasks, secretmanager, discoveryengine); create service account `director-cut-agent`; grant roles; document in `docs/gcp-setup.md` | `docs/gcp-setup.md` | T0.2 | `[x]` | `gcloud services list --enabled \| grep aiplatform` |
+| T0.5 | Initial git commit of scaffolding | — | T0.1 | `[x]` | `git log --oneline \| head -3` |
 
 ### Phase 1 — Broadcast Simulator
 | ID | Task | Files | Depends | Status | Verify command |
@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T0.3** — requirements.txt + venv install, adk import verified (2026-09-08)
-- **Next task to execute**: **T0.4** (project ID confirmed by user: `director-cut`)
+- **Last completed task**: **T0.5** — Phase 0 bootstrap complete (T0.1–T0.5 all verified 2026-09-08)
+- **Next task to execute**: **T1.1** (docker-compose simulator stack)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 
