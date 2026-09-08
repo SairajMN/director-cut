@@ -123,8 +123,8 @@ director-cut/
 | T3.2 | Sensor Agent: sub-agent using grafana MCP tools + `get_incident_context` python tool; writes `IncidentReport` dict to state | `sub_agents/sensor_agent.py` | T3.1 | `[ ]` | adk web: inject failure → state contains `incident_report` |
 | T3.3 | Root-Cause Agent: sub-agent with Loki/Prom range-query tools + placeholder `search_runbooks` (stub until T5.2); writes `RootCauseReport` | `sub_agents/root_cause_agent.py` | T3.1 | `[ ]` | adk web: after sensor step, state has `root_cause_report` with evidence list |
 | T3.4 | Remediation Agent: sub-agent with `check_authorization` + `execute_remediation` + `write_grafana_annotation`; remediation catalog is a fixed enum in `remediation_tools.py` | `sub_agents/remediation_agent.py`, `tools/remediation_tools.py` | T3.1 | `[ ]` | adk web: forced authz call appears in trace before any execution |
-| T3.5 | Wire end-to-end local golden path: inject → detect → diagnose → (stub authz APPROVED) → requeue → recovery → annotation | `tests/e2e_local.py` | T3.2–T3.4 | `[ ]` | `python tests/e2e_local.py` exits 0, metric recovers |
-| T3.6 | Commit + push Phase 3 | — | T3.5 | `[ ]` | `git log --oneline -1` |
+| T3.5 | Wire end-to-end local golden path: inject → detect → diagnose → (stub authz APPROVED) → requeue → recovery → annotation | `tests/e2e_local.py` | T3.2–T3.4 | `[x]` | `python tests/e2e_local.py` exits 0, metric recovers |
+| T3.6 | Commit + push Phase 3 | — | T3.5 | `[x]` | `git log --oneline -1` |
 
 ### Phase 4 — Governance Layer (the money moment)
 | ID | Task | Files | Depends | Status | Verify command |
@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T3.4** (agent crew: sensor, root-cause, studio-head gate, remediation, escalation — all load, authz gate enforced) — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
-- **Next task to execute**: **T3.5** (e2e local golden path)
+- **Last completed task**: **T3.6** — Phase 3 complete; e2e golden path PASS (inject 36 drops/s -> alert -> authz ALLOW -> requeue -> recovery 0.13 -> annotation) (agent crew: sensor, root-cause, studio-head gate, remediation, escalation — all load, authz gate enforced) — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
+- **Next task to execute**: **T4.1** (Studio Head real IAM policy via GCP IAM / policy engine)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 

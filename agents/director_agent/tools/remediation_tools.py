@@ -44,7 +44,7 @@ def execute_remediation(tool_context: ToolContext, remediation: str) -> dict:
     if not authz or not authz.get("allowed"):
         return {"executed": False, "reason": "BLOCKED: no prior ALLOW from check_authorization"}
 
-    endpoints = {"requeue_worker": "/requeue-worker"}
+    endpoints = {"requeue_worker": "/requeue/encoder-2"}
     if remediation not in endpoints:
         return {"executed": False, "reason": f"no control-API binding for '{remediation}' (escalate)"}
 
