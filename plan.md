@@ -101,12 +101,12 @@ director-cut/
 ### Phase 1 — Broadcast Simulator
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T1.1 | `docker-compose.yml`: Prometheus, Loki, Grafana (provisioned datasources), control-api, 3 encoder workers + 2 cdn workers | `simulator/docker-compose.yml` | T0.3 | `[ ]` | `docker compose -f simulator/docker-compose.yml up -d && docker compose -f simulator/docker-compose.yml ps` |
-| T1.2 | Workers: emit `frames_dropped`, `encode_latency_seconds`, `cdn_p99_latency_ms`, `buffer_ratio` to Prometheus push endpoint + structured JSON logs to Loki; healthy baseline behavior | `simulator/workers/*` | T1.1 | `[ ]` | `curl -s http://localhost:9090/api/v1/query?query=frames_dropped_total \| grep result` |
-| T1.3 | Control API (FastAPI, :8080): `POST /inject-failure/{scenario}`, `POST /requeue/{node}`, `POST /drain/{node}`, `POST /flip-cdn`, `GET /health` — mutations flip worker behavior | `simulator/control_api/main.py` | T1.1 | `[ ]` | `curl -s localhost:8080/health` |
-| T1.4 | Failure scenarios: `encoder_frame_drop` (single node, Tier-1) and `cdn_multi_region` (global, Tier-3 blocked) — deterministic, scripted | `simulator/scenarios/failures.py` | T1.2 | `[ ]` | `curl -X POST localhost:8080/inject-failure/encoder_frame_drop` then Prom query shows spike |
-| T1.5 | Grafana provisioning: dashboard JSON (4 panels) + alert rule `encoder_frame_drop` (fires when frames_dropped rate > threshold 30s) + `cdn_multi_region_latency` | `simulator/grafana/provisioning/*` | T1.2 | `[ ]` | Grafana UI :3000 shows dashboard + 2 alert rules in "Firing" after injection |
-| T1.6 | `tests/test_simulator.py`: smoke tests (health, inject → metric spike → requeue → recovery) | `tests/test_simulator.py` | T1.4 | `[ ]` | `pytest tests/test_simulator.py -v` |
+| T1.1 | `docker-compose.yml`: Prometheus, Loki, Grafana (provisioned datasources), control-api, 3 encoder workers + 2 cdn workers | `simulator/docker-compose.yml` | T0.3 | `[x]` | `docker compose -f simulator/docker-compose.yml up -d && docker compose -f simulator/docker-compose.yml ps` |
+| T1.2 | Workers: emit `frames_dropped`, `encode_latency_seconds`, `cdn_p99_latency_ms`, `buffer_ratio` to Prometheus push endpoint + structured JSON logs to Loki; healthy baseline behavior | `simulator/workers/*` | T1.1 | `[x]` | `curl -s http://localhost:9090/api/v1/query?query=frames_dropped_total \| grep result` |
+| T1.3 | Control API (FastAPI, :8080): `POST /inject-failure/{scenario}`, `POST /requeue/{node}`, `POST /drain/{node}`, `POST /flip-cdn`, `GET /health` — mutations flip worker behavior | `simulator/control_api/main.py` | T1.1 | `[x]` | `curl -s localhost:8080/health` |
+| T1.4 | Failure scenarios: `encoder_frame_drop` (single node, Tier-1) and `cdn_multi_region` (global, Tier-3 blocked) — deterministic, scripted | `simulator/scenarios/failures.py` | T1.2 | `[x]` | `curl -X POST localhost:8080/inject-failure/encoder_frame_drop` then Prom query shows spike |
+| T1.5 | Grafana provisioning: dashboard JSON (4 panels) + alert rule `encoder_frame_drop` (fires when frames_dropped rate > threshold 30s) + `cdn_multi_region_latency` | `simulator/grafana/provisioning/*` | T1.2 | `[x]` | Grafana UI :3000 shows dashboard + 2 alert rules in "Firing" after injection |
+| T1.6 | `tests/test_simulator.py`: smoke tests (health, inject → metric spike → requeue → recovery) | `tests/test_simulator.py` | T1.4 | `[x]` | `pytest tests/test_simulator.py -v` |
 
 ### Phase 2 — Grafana MCP Integration (PARTNER PROOF)
 | ID | Task | Files | Depends | Status | Verify command |
