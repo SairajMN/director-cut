@@ -18,7 +18,7 @@ def write_post_mortem(incident: str, alert: str, root_cause: str, action_taken: 
         "action_taken": action_taken,
         "authz_decision": authz_decision,
         "ticket_id": ticket_id,
-        "created_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "created_at": time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),
     }
     client = bigquery.Client(project=PROJECT_ID)
     errors = client.insert_rows_json(TABLE_ID, [row])

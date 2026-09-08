@@ -137,7 +137,7 @@ director-cut/
 ### Phase 5 — Cloud Integration
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T5.1 | BigQuery dataset `director_cut`, table `post_mortems`; tool `write_post_mortem` called by Director after each incident | `tools/bigquery_tools.py` | T0.4, T3.5 | `[~]` | `bq query "SELECT count(*) FROM director_cut.post_mortems"` after a run |
+| T5.1 | BigQuery dataset `director_cut`, table `post_mortems`; tool `write_post_mortem` called by Director after each incident | `tools/bigquery_tools.py` | T0.4, T3.5 | `[x]` | `bq query "SELECT count(*) FROM director_cut.post_mortems"` after a run |
 | T5.2 | Runbook RAG: seed `docs/runbooks/*.md` (5 docs incl. "frame drop loop" playbook), create Vertex AI Search data store, implement `search_runbooks` tool replacing T3.3 stub | `docs/runbooks/`, `tools/rag_tools.py` | T0.4 | `[ ]` | `pytest tests/test_rag.py` returns frame-drop runbook |
 | T5.3 | Cloud Tasks queue → simulator control API (replace direct HTTP calls); agent SA has minimal IAM roles | update `remediation_tools.py` | T3.4, T0.4 | `[ ]` | inject → task executes → control API logs show Cloud Tasks origin |
 | T5.4 | Commit + push Phase 5 | — | T5.3 | `[ ]` | `git log --oneline -1` |
@@ -167,7 +167,7 @@ director-cut/
 | Date | Task | Error / Blocker | Suggested fix | Status |
 |---|---|---|---|---|
 | _— | _— | _— | _— | _— |
-| 2026-09-08 | T5.1 | ADC RefreshError `invalid_grant` on BigQuery insert via Python client; `bq` CLI creds unaffected | User runs `gcloud auth application-default login --project director-cut`, then re-run insert + count verify | OPEN |
+| 2026-09-08 | T5.1 | ADC RefreshError `invalid_grant` on BigQuery insert via Python client; `bq` CLI creds unaffected | User runs `gcloud auth application-default login --project director-cut` | RESOLVED (user re-authed; insert ok, count=1) |
 
 ---
 
