@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T1.4** — scripted failure scenarios; inject → Prom spike → requeue verified 2026-09-08
-- **Next task to execute**: **T1.5** (Grafana dashboards + alert rules)
+- **Last completed task**: **T1.5** — Grafana dashboard + 2 alert rules provisioned, both reach Firing (verified 2026-09-08)
+- **Next task to execute**: **T1.6** (simulator smoke tests)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 

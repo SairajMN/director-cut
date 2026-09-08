@@ -1,0 +1,64 @@
+apiVersion: 1
+
+groups:
+  - name: broadcast
+    folder: Broadcast
+    interval: 20s
+    rules:
+      - uid: encoder-frame-drop
+        title: encoder_frame_drop
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 60, to: 0}
+            datasourceUid: prometheus
+            model:
+              datasource: {type: prometheus, uid: prometheus}
+              expr: rate(frames_dropped_total[30s])
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator: {params: [5], type: gt}
+                  operator: {type: and}
+                  query: {params: [C]}
+              datasource: {type: __expr__, uid: __expr__}
+              expression: A
+              type: threshold
+        for: 30s
+        annotations:
+          summary: Encoder dropping frames above safe threshold
+        labels:
+          tier: "1"
+          scenario: encoder_frame_drop
+
+      - uid: cdn-multi-region-latency
+        title: cdn_multi_region_latency
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 60, to: 0}
+            datasourceUid: prometheus
+            model:
+              datasource: {type: prometheus, uid: prometheus}
+              expr: cdn_p99_latency_ms
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator: {params: [500], type: gt}
+                  operator: {type: and}
+                  query: {params: [C]}
+              datasource: {type: __expr__, uid: __expr__}
+              expression: A
+              type: threshold
+        for: 30s
+        annotations:
+          summary: CDN p99 latency elevated across regions
+        labels:
+          tier: "3"
+          scenario: cdn_multi_region

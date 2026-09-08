@@ -1,0 +1,39 @@
+{
+  "title": "Broadcast Reliability",
+  "uid": "broadcast-rel",
+  "timezone": "browser",
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Frames Dropped (rate/s)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "datasource": {"type": "prometheus", "uid": null},
+      "targets": [{"expr": "rate(frames_dropped_total[30s])", "legendFormat": "{{node}}"}]
+    },
+    {
+      "id": 2,
+      "title": "Encode Latency (s)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [{"expr": "encode_latency_seconds", "legendFormat": "{{node}}"}]
+    },
+    {
+      "id": 3,
+      "title": "CDN p99 Latency (ms)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [{"expr": "cdn_p99_latency_ms", "legendFormat": "{{node}}"}]
+    },
+    {
+      "id": 4,
+      "title": "Buffer Ratio",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [{"expr": "buffer_ratio", "legendFormat": "{{node}}"}]
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}
