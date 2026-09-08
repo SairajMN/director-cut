@@ -120,9 +120,9 @@ director-cut/
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
 | T3.1 | Director root agent: `LlmAgent` with 4 sub-agents, deterministic instruction pipeline in `prompts.py`, session state keys: `incident_report`, `root_cause_report`, `authz_decision`, `ticket` | `agents/director_agent/agent.py`, `prompts.py` | T2.2 | `[x]` | `adk web agents/` loads; chat "status" responds |
-| T3.2 | Sensor Agent: sub-agent using grafana MCP tools + `get_incident_context` python tool; writes `IncidentReport` dict to state | `sub_agents/sensor_agent.py` | T3.1 | `[ ]` | adk web: inject failure → state contains `incident_report` |
-| T3.3 | Root-Cause Agent: sub-agent with Loki/Prom range-query tools + placeholder `search_runbooks` (stub until T5.2); writes `RootCauseReport` | `sub_agents/root_cause_agent.py` | T3.1 | `[ ]` | adk web: after sensor step, state has `root_cause_report` with evidence list |
-| T3.4 | Remediation Agent: sub-agent with `check_authorization` + `execute_remediation` + `write_grafana_annotation`; remediation catalog is a fixed enum in `remediation_tools.py` | `sub_agents/remediation_agent.py`, `tools/remediation_tools.py` | T3.1 | `[ ]` | adk web: forced authz call appears in trace before any execution |
+| T3.2 | Sensor Agent: sub-agent using grafana MCP tools + `get_incident_context` python tool; writes `IncidentReport` dict to state | `sub_agents/sensor_agent.py` | T3.1 | `[x]` | adk web: inject failure → state contains `incident_report` |
+| T3.3 | Root-Cause Agent: sub-agent with Loki/Prom range-query tools + placeholder `search_runbooks` (stub until T5.2); writes `RootCauseReport` | `sub_agents/root_cause_agent.py` | T3.1 | `[x]` | adk web: after sensor step, state has `root_cause_report` with evidence list |
+| T3.4 | Remediation Agent: sub-agent with `check_authorization` + `execute_remediation` + `write_grafana_annotation`; remediation catalog is a fixed enum in `remediation_tools.py` | `sub_agents/remediation_agent.py`, `tools/remediation_tools.py` | T3.1 | `[x]` | adk web: forced authz call appears in trace before any execution |
 | T3.5 | Wire end-to-end local golden path: inject → detect → diagnose → (stub authz APPROVED) → requeue → recovery → annotation | `tests/e2e_local.py` | T3.2–T3.4 | `[x]` | `python tests/e2e_local.py` exits 0, metric recovers |
 | T3.6 | Commit + push Phase 3 | — | T3.5 | `[x]` | `git log --oneline -1` |
 
@@ -132,7 +132,7 @@ director-cut/
 | T4.1 | `policy/iam_policy.yaml`: remediation catalog with tiers (T1 auto, T2 approve+notify, T3 block) + `policy_tools.check_authorization` pure-Python evaluator (no LLM) + unit tests | `policy/iam_policy.yaml`, `tools/policy_tools.py`, `tests/test_policy.py` | T3.4 | `[x]` | `pytest tests/test_policy.py -v` |
 | T4.2 | Hook Studio Head gate into Remediation Agent: forced `check_authorization` before `execute_remediation`; BLOCKED path routes to escalation | update `remediation_agent.py` | T4.1 | `[x]` | adk web: propose GLOBAL_CDN_FLIP → trace shows BLOCKED |
 | T4.3 | Escalation Agent: `create_incident_ticket` tool → writes pre-filled ticket JSON to `tickets/` + HTTP webhook stub; blocked-path e2e test | `sub_agents/escalation_agent.py`, `tests/e2e_blocked.py` | T4.2 | `[x]` | `python tests/e2e_blocked.py` produces ticket JSON with block reason |
-| T4.4 | Commit + push Phase 4 | — | T4.3 | `[ ]` | `git log --oneline -1` |
+| T4.4 | Commit + push Phase 4 | — | T4.3 | `[x]` | `git log --oneline -1` |
 
 ### Phase 5 — Cloud Integration
 | ID | Task | Files | Depends | Status | Verify command |
@@ -156,7 +156,7 @@ director-cut/
 ## 5. Progress Snapshot (update after every task)
 
 - **Last completed task**: **T3.6** — Phase 3 complete; e2e golden path PASS (inject 36 drops/s -> alert -> authz ALLOW -> requeue -> recovery 0.13 -> annotation) (agent crew: sensor, root-cause, studio-head gate, remediation, escalation — all load, authz gate enforced) — grafana_tools.py wraps MCP via ADK McpToolset, 7 tools loaded (verified 2026-09-08)
-- **Next task to execute**: **T4.1** (Studio Head real IAM policy via GCP IAM / policy engine)
+ **T4.1** (Studio Head real IAM policy via GCP IAM / policy engine)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 

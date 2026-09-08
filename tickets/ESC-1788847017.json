@@ -1,0 +1,9 @@
+{
+  "id": "ESC-1788847017",
+  "title": "cdn_multi_region_latency \u2014 needs human: purge_cdn_cache",
+  "incident": "cdn_multi_region_latency",
+  "body": "Multi-region CDN latency breach.\nRoot cause: unhealthy region (see root_cause_report).\nAction required: global blast radius; on-call engineer only",
+  "channel": "#broadcast-oncall",
+  "escalated": true,
+  "created_at": "2026-09-08T11:26:57+0530"
+}
