@@ -224,11 +224,11 @@ flowchart LR
 
 ## 6. Submission Checklist
 
-- [ ] Public repo with `LICENSE` at root (visible in About section) — ✅ LICENSE already committed
-- [ ] Hosted URL (Cloud Run UI)
-- [ ] 3-min English demo video (YouTube/Vimeo, public)
-- [ ] Grafana MCP imported **and called at runtime in code** (not just named)
-- [ ] Real Google Cloud runtime (Agent Engine deployment, not local-only)
+- [x] Public repo with `LICENSE` at root (visible in About section)
+- [x] Hosted URL (Cloud Run UI): https://director-cut-ui-956371375272.us-central1.run.app
+- [ ] 3-min English demo video (YouTube/Vimeo, public): <paste URL here>
+- [x] Grafana MCP imported **and called at runtime in code** (not just named) — `agents/director_agent/tools/grafana_tools.py` (ADK `McpToolset` over SSE) + runtime proof in `tests/test_grafana_mcp.py`
+- [x] Real Google Cloud runtime (Agent Engine deployment, not local-only) — reasoning engine `5980768760275927040` (us-central1), remote round-trip verified
 - [ ] Devpost form submitted with Grafana Labs track selected
 
 ---
