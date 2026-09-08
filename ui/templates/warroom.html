@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Director's Cut — War Room</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; margin: 0; background: #111318; color: #e6e6e6; }
+    header { padding: 14px 20px; background: #1a1d24; border-bottom: 2px solid #f60; display: flex; justify-content: space-between; }
+    header h1 { font-size: 18px; margin: 0; } .live { color: #4caf50; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr 340px; gap: 12px; padding: 12px; }
+    .card { background: #1a1d24; border-radius: 8px; padding: 12px; }
+    .card h2 { font-size: 13px; margin: 0 0 8px; color: #999; text-transform: uppercase; }
+    .event { padding: 6px 8px; border-left: 3px solid #f60; margin-bottom: 6px; background: #22262e; font-size: 13px; }
+    .event.human { border-color: #4caf50; }
+    .event .ts { color: #888; margin-right: 6px; }
+    .ticket { background: #22262e; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+    .ticket button { background: #4caf50; border: 0; color: #fff; padding: 7px 14px; border-radius: 4px; cursor: pointer; margin-top: 6px; }
+    iframe { width: 100%; height: 260px; border: 0; border-radius: 6px; }
+    .offline { color: #f66; font-size: 13px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🎬 Director's Cut — War Room</h1>
+  <span class="live">● LIVE</span>
+</header>
+<div class="grid">
+  <div class="card">
+    <h2>Incident Timeline</h2>
+    {% for e in events %}
+      <div class="event {{ 'human' if e.actor == 'human' else '' }}">
+        <span class="ts">{{ e.ts }}</span><b>{{ e.actor }}</b> — {{ e.text }}
+      </div>
+    {% else %}
+      <div class="event">No events yet — run tests/e2e_demo.py</div>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <h2>Grafana — Broadcast Reliability</h2>
+    {% if grafana_ok %}
+      <iframe src="{{ grafana_url }}/d/{{ dashboard_uid }}?kiosk&theme=dark"></iframe>
+    {% else %}
+      <p class="offline">Grafana unreachable from this deployment ({{ grafana_url }}).<br>
+      Run locally with GRAFANA_URL set to your instance for live panels.</p>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h2>Escalation Queue</h2>
+    {% for t in tickets %}
+      <div class="ticket">
+        <b>{{ t.id }}</b><br>{{ t.title }}<br>
+        <small>{{ t.body }}</small><br>
+        {% if t.channel %}<small>→ {{ t.channel }}</small>{% endif %}
+        <button onclick="approve('{{ t.id }}')">Approve fix</button>
+      </div>
+    {% else %}
+      <div class="ticket">No open escalations.</div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+  async function approve(id) {
+    await fetch('/api/approve/encoder-2', { method: 'POST' });
+    location.reload();
+  }
+  setInterval(() => location.reload(), 15000);
+</script>
+</body>
+</html>
