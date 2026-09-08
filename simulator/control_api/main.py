@@ -1,8 +1,12 @@
 """Control API: in-memory node state that workers poll; mutations flip worker behavior."""
-import os
+import sys
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from scenarios.failures import SCENARIOS
 
 app = FastAPI(title="director-cut control-api")
 
@@ -42,11 +46,10 @@ def node_state(node: str) -> dict[str, str]:
 
 @app.post("/inject-failure/{scenario}")
 def inject_failure(scenario: str) -> dict[str, Any]:
-    if scenario == "encoder_frame_drop":
-        return _set([os.getenv("FAIL_NODE", "encoder-2")], "frame_drop")
-    if scenario == "cdn_multi_region":
-        return _set(CDNS, "multi_region")
-    raise HTTPException(400, f"unknown scenario {scenario}")
+    if scenario not in SCENARIOS:
+        raise HTTPException(400, f"unknown scenario {scenario}")
+    nodes, mode = SCENARIOS[scenario]
+    return _set(nodes, mode)
 
 
 @app.post("/requeue/{node}")

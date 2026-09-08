@@ -30,6 +30,8 @@ services:
   control-api:
     build:
       context: .
+    volumes:
+      - .:/app
     command: uvicorn control_api.main:app --host 0.0.0.0 --port 8080
     ports:
       - "8080:8080"

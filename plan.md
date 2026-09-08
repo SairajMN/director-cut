@@ -155,8 +155,8 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: **T0.5** — Phase 0 bootstrap complete (T0.1–T0.5 all verified 2026-09-08)
-- **Next task to execute**: **T1.1** (docker-compose simulator stack)
+- **Last completed task**: **T1.4** — scripted failure scenarios; inject → Prom spike → requeue verified 2026-09-08
+- **Next task to execute**: **T1.5** (Grafana dashboards + alert rules)
 - **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 
