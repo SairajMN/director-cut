@@ -92,7 +92,7 @@ director-cut/
 ### Phase 0 — Bootstrap
 | ID | Task | Files | Depends | Status | Verify command |
 |---|---|---|---|---|---|
-| T0.1 | Create scaffolding dirs + `.gitignore` (`.env`, `__pycache__`, `.venv`) | dirs above | — | `[ ]` | `ls agents/director_agent tools 2>/dev/null; cat .gitignore` |
+| T0.1 | Create scaffolding dirs + `.gitignore` (`.env`, `__pycache__`, `.venv`) | dirs above | — | `[x]` | `ls agents/director_agent tools 2>/dev/null; cat .gitignore` |
 | T0.2 | Create `.env.example` + load `.env` (GCP_PROJECT_ID, REGION, GRAFANA_URL, GRAFANA_SA_TOKEN, GOOGLE_API_KEY) | `.env.example` | T0.1 | `[ ]` | `grep -c "GCP_PROJECT_ID" .env.example` |
 | T0.3 | `requirements.txt`: `google-cloud-aiplatform[agent_engines,adk]>=1.101.0`, `fastapi`, `uvicorn`, `requests`, `prometheus-client`, `mcp`, `pyyaml`, `pytest` | `requirements.txt` | T0.1 | `[ ]` | `pip install -r requirements.txt && python -c "import google.adk"` |
 | T0.4 | GCP setup: enable APIs (aiplatform, run, bigquery, cloudtasks, secretmanager, discoveryengine); create service account `director-cut-agent`; grant roles; document in `docs/gcp-setup.md` | `docs/gcp-setup.md` | T0.2 | `[ ]` | `gcloud services list --enabled \| grep aiplatform` |
@@ -155,9 +155,9 @@ director-cut/
 
 ## 5. Progress Snapshot (update after every task)
 
-- **Last completed task**: _none — build not started_
-- **Next task to execute**: **T0.1**
-- **Last verified by (model/session)**: _—_
+- **Last completed task**: **T0.1** — scaffolding dirs + .gitignore (verified 2026-09-08)
+- **Next task to execute**: **T0.2**
+- **Last verified by (model/session)**: this session (Cline, 2026-09-08)
 - **Build started**: 2026-09-08
 
 ---
